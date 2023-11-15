@@ -645,6 +645,7 @@ graceful-response:
   # 自定义的失败提示，默认为error
   default-error-msg: 
   # 全局的参数校验错误码，默认等于default-error-code
+
   default-validate-error-code: 
   # 例外包路径(支持数字, *和**通配符匹配)，该包路径下的controller将被忽略处理
   exclude-packages:
