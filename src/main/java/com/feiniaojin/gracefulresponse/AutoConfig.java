@@ -14,8 +14,6 @@ import org.springframework.boot.context.properties.EnableConfigurationProperties
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
-import javax.annotation.PostConstruct;
-
 /**
  * 全局返回值处理的自动配置.
  *
@@ -35,7 +33,7 @@ public class AutoConfig {
 
     @Bean
     @ConditionalOnMissingBean(value = ValidationExceptionAdvice.class)
-    public ValidationExceptionAdvice validationAdvice() {
+    public ValidationExceptionAdvice validationExceptionAdvice() {
         return new ValidationExceptionAdvice();
     }
 
@@ -68,9 +66,4 @@ public class AutoConfig {
         return new ExceptionAliasRegister();
     }
 
-
-    @Bean
-    public Init init(){
-        return new Init();
-    }
 }
