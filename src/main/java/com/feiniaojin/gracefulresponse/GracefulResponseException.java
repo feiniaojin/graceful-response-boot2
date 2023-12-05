@@ -14,9 +14,19 @@ public class GracefulResponseException extends RuntimeException {
     public GracefulResponseException() {
     }
 
+    public GracefulResponseException(String msg) {
+        super(msg);
+        this.msg = msg;
+    }
+
     public GracefulResponseException(String code, String msg) {
         super(msg);
         this.code = code;
+        this.msg = msg;
+    }
+
+    public GracefulResponseException(String msg, Throwable cause) {
+        super(msg, cause);
         this.msg = msg;
     }
 
