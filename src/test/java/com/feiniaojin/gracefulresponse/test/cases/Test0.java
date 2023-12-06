@@ -71,6 +71,7 @@ public class Test0 {
     public void testValidateDto(@Autowired MockMvc mockMvc) throws Exception {
         MockHttpServletRequestBuilder requestBuilder = MockMvcRequestBuilders.post("/example/validateDto");
         Map<String, Object> paramMap = new HashMap<>();
+        paramMap.put("userName","userName");
         ObjectMapper objectMapper = new ObjectMapper();
         String reqBody = objectMapper.writeValueAsString(paramMap);
         requestBuilder.content(reqBody);
