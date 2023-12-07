@@ -75,6 +75,7 @@ public class Test0 {
         ObjectMapper objectMapper = new ObjectMapper();
         String reqBody = objectMapper.writeValueAsString(paramMap);
         requestBuilder.content(reqBody);
+        requestBuilder.contentType("application/json");
         ResultActions actions = mockMvc.perform(requestBuilder);
         StatusResultMatchers status = MockMvcResultMatchers.status();
         ResultMatcher statusMatcher = status.is(200);
