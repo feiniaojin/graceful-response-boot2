@@ -1,6 +1,8 @@
 package com.feiniaojin.gracefulresponse.advice;
 
 import com.feiniaojin.gracefulresponse.api.ResponseFactory;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.core.MethodParameter;
 import org.springframework.core.annotation.Order;
 import org.springframework.http.MediaType;
@@ -24,6 +26,8 @@ import java.util.Objects;
 @ControllerAdvice
 @Order(value = 1000)
 public class VoidResponseBodyAdvice implements ResponseBodyAdvice<Object> {
+
+    private final Logger logger = LoggerFactory.getLogger(VoidResponseBodyAdvice.class);
 
     @Resource
     private ResponseFactory responseFactory;

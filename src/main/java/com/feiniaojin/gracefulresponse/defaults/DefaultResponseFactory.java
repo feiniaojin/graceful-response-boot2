@@ -21,7 +21,7 @@ import java.util.Objects;
  */
 public class DefaultResponseFactory implements ResponseFactory {
 
-    private Logger logger = LoggerFactory.getLogger(DefaultResponseFactory.class);
+    private final Logger logger = LoggerFactory.getLogger(DefaultResponseFactory.class);
 
     private static final Integer RESPONSE_STYLE_0 = 0;
 

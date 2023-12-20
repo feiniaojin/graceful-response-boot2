@@ -62,7 +62,9 @@ public class NotVoidResponseBodyAdvice implements ResponseBodyAdvice<Object> {
         if (Objects.isNull(method)
                 || method.getReturnType().equals(Void.TYPE)
                 || !MappingJackson2HttpMessageConverter.class.isAssignableFrom(clazz)) {
-            logger.debug("Graceful Response:method为空、返回值为void、非JSON，跳过");
+            if (logger.isDebugEnabled()) {
+                logger.debug("Graceful Response:method为空、返回值为void、非JSON，跳过");
+            }
             return false;
         }
 
@@ -100,6 +102,10 @@ public class NotVoidResponseBodyAdvice implements ResponseBodyAdvice<Object> {
         } else if (body instanceof Response) {
             return body;
         } else {
+            if (logger.isDebugEnabled()) {
+                String path = serverHttpRequest.getURI().getPath();
+                logger.debug("Graceful Response:非空返回值，执行封装:path={}", path);
+            }
             return responseFactory.newSuccessInstance(body);
         }
     }
