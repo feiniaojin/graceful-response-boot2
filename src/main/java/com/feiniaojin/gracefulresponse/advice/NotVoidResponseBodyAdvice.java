@@ -10,7 +10,8 @@ import org.springframework.core.MethodParameter;
 import org.springframework.core.annotation.Order;
 import org.springframework.http.MediaType;
 import org.springframework.http.converter.HttpMessageConverter;
-import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
+import org.springframework.http.converter.json.AbstractJackson2HttpMessageConverter;
+import org.springframework.http.converter.json.AbstractJsonHttpMessageConverter;
 import org.springframework.http.server.ServerHttpRequest;
 import org.springframework.http.server.ServerHttpResponse;
 import org.springframework.util.AntPathMatcher;
@@ -61,10 +62,9 @@ public class NotVoidResponseBodyAdvice implements ResponseBodyAdvice<Object> {
         //method为空、返回值为void、非JSON，直接跳过
         if (Objects.isNull(method)
                 || method.getReturnType().equals(Void.TYPE)
-                || !MappingJackson2HttpMessageConverter.class.isAssignableFrom(clazz)) {
-            if (logger.isDebugEnabled()) {
-                logger.debug("Graceful Response:method为空、返回值为void、非JSON，跳过");
-            }
+                || method.getReturnType().equals(Response.class)
+                || !isJsonHttpMessageConverter(clazz)) {
+            logger.debug("Graceful Response:method为空、返回值为void和Response类型、非JSON，跳过");
             return false;
         }
 
@@ -90,6 +90,16 @@ public class NotVoidResponseBodyAdvice implements ResponseBodyAdvice<Object> {
         return true;
     }
 
+    /**
+     * 判断是否是JSON消息转换器
+     * @param clazz
+     * @return
+     */
+    private boolean isJsonHttpMessageConverter(Class<? extends HttpMessageConverter<?>> clazz) {
+        return AbstractJsonHttpMessageConverter.class.isAssignableFrom(clazz)
+                || AbstractJackson2HttpMessageConverter.class.isAssignableFrom(clazz)
+                || clazz.getName().equals(properties.getJsonHttpMessageConverter());
+    }
     @Override
     public Object beforeBodyWrite(Object body,
                                   MethodParameter methodParameter,

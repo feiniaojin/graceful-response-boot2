@@ -69,6 +69,11 @@ public class GracefulResponseProperties {
      */
     private Boolean originExceptionUsingDetailMessage = false;
 
+    /**
+     * 自定义需要支持的JSON转换器
+     */
+    private String jsonHttpMessageConverter;
+
     public boolean isPrintExceptionInGlobalAdvice() {
         return printExceptionInGlobalAdvice;
     }
@@ -147,5 +152,13 @@ public class GracefulResponseProperties {
 
     public void setOriginExceptionUsingDetailMessage(Boolean originExceptionUsingDetailMessage) {
         this.originExceptionUsingDetailMessage = originExceptionUsingDetailMessage;
+    }
+
+    public String getJsonHttpMessageConverter() {
+        return jsonHttpMessageConverter;
+    }
+
+    public void setJsonHttpMessageConverter(String jsonHttpMessageConverter) {
+        this.jsonHttpMessageConverter = jsonHttpMessageConverter;
     }
 }
