@@ -654,7 +654,7 @@ graceful-response:
     - com.lizhiadmin.pro.module.*.controller
 ```
 
-# 6. 点赞趋势图
+# 6. star
 
 [![Star History Chart](https://api.star-history.com/svg?repos=feiniaojin/graceful-response&type=Date)](https://star-history.com/#feiniaojin/graceful-response&Date)
 
@@ -670,8 +670,4 @@ graceful-response:
 
 使用过程中如遇到问题，可以联系作者。
 
-公众号: MarkWord
-
-用户群：
-
-[![piplkxx.jpg](https://z1.ax1x.com/2023/10/13/piplkxx.jpg)](https://imgse.com/i/piplkxx)
+<div><img src="./assets/qr.jpg" style="width: 50%"/></div>
