@@ -666,8 +666,8 @@ graceful-response:
   <img src="https://contrib.rocks/image?repo=feiniaojin/graceful-response" />
 </a>
 
-------
+# 8. 联系作者并加入用户交流群
 
-欢迎通过以下二维码加入Graceful Response用户交流群，申请好友时请备注“GR”。
+欢迎通过以下二维码联系作者，并加入Graceful Response用户交流群，申请好友时请备注“GR”。
 
-<div><img src="./assets/qr.jpg" style="width: 50%"/></div>
+<div><img src="./assets/qr.jpg" style="width: 50%"/></div>~~
