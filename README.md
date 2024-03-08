@@ -20,8 +20,8 @@ Graceful Response是一个Spring Boot体系下的优雅响应处理器，提供�
 
 | Spring Boot版本 | Graceful Response版本 | graceful-response-example分支        |
 |---------------|---------------------|-------------|
-| 2.x           | 3.5.0-boot2         | 3.5.0-boot2 |
-| 3.x           | 3.5.0-boot3         | 3.5.0-boot3 |
+| 2.x           | 3.5.2-boot2         | 3.5.2-boot2 |
+| 3.x           | 3.5.2-boot3         | 3.5.2-boot3 |
 
 
 # 2. Java Web API接口数据返回的现状及解决方案
@@ -111,8 +111,8 @@ Data data=service.query(params);
 
 | Spring Boot版本| Java版本 | Graceful Response版本 | graceful-response-example分支        |
 |---------------|--------|---------------------|-------------|
-| 2.x           | 8      | 3.2.0-boot2         | 3.5.0-boot2         |
-| 3.x           | 17     | 3.2.0-boot3         | 3.5.0-boot3         |
+| 2.x           | 8      | 3.5.2-boot2         | 3.5.2-boot2         |
+| 3.x           | 17     | 3.5.2-boot3         | 3.5.2-boot3         |
 
 ## 3.2 在启动类中引入@EnableGracefulResponse注解
 
