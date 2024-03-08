@@ -670,4 +670,4 @@ graceful-response:
 
 欢迎通过以下二维码联系作者，并加入Graceful Response用户交流群，申请好友时请备注“GR”。
 
-<div><img src="./assets/qr.jpg" style="width: 50%"/></div>~~
+<div><img src="./assets/qr.jpg" style="width: 50%"/></div>
