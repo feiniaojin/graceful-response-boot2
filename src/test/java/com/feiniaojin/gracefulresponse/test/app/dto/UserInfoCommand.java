@@ -1,10 +1,10 @@
 package com.feiniaojin.gracefulresponse.test.app.dto;
 
 import com.feiniaojin.gracefulresponse.api.ValidationStatusCode;
-import org.hibernate.validator.constraints.Length;
-
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
+import org.hibernate.validator.constraints.Length;
+
 
 public class UserInfoCommand {
     @NotNull(message = "userId is null !")

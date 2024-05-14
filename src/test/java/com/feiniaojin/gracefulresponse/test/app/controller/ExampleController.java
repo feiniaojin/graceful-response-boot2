@@ -9,18 +9,15 @@ import com.feiniaojin.gracefulresponse.test.app.dto.UserInfoQuery;
 import com.feiniaojin.gracefulresponse.test.app.dto.UserInfoView;
 import com.feiniaojin.gracefulresponse.test.app.exceptions.ReplaceMsgException;
 import com.feiniaojin.gracefulresponse.test.app.service.ExampleService;
+import javax.annotation.Resource;
+import javax.validation.constraints.NotNull;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.Assert;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
-import javax.annotation.Resource;
-import javax.validation.constraints.NotNull;
 import java.util.Collections;
 import java.util.Map;
 
@@ -144,7 +141,7 @@ public class ExampleController {
      */
     @RequestMapping("/validateDto")
     @ResponseBody
-    public void validateDto(@RequestBody @Validated UserInfoQuery dto) {
+    public void validateDto(@Validated UserInfoQuery dto) {
         logger.info(dto.toString());
     }
 
@@ -157,8 +154,8 @@ public class ExampleController {
     @RequestMapping("/validateMethodParam")
     @ResponseBody
     @ValidationStatusCode(code = "1314")
-    public void validateMethodParam(@NotNull(message = "userId不能为空") Long userId,
-                                    @NotNull(message = "userName不能为空") Long userName) {
+    public void validateMethodParam(@RequestParam(name = "userId", required = false) @NotNull(message = "userId不能为空") Long userId,
+                                    @RequestParam(name = "userName", required = false) @NotNull(message = "userName不能为空") Long userName) {
         logger.info("" + userId);
     }
 
@@ -265,6 +262,13 @@ public class ExampleController {
     @ResponseBody
     public void assert2(Integer id) {
         GracefulResponse.wrapAssert("1001", () -> Assert.isTrue(id == 1, "id不等于1"));
+    }
+
+    @RequestMapping("/assert3")
+    @ResponseBody
+    public void assert3(Integer id) {
+        logger.info("assert3");
+        GracefulResponse.wrapAssert("1001","data", () -> Assert.isTrue(id == 1, "id不等于1"));
     }
 
     @RequestMapping("/customExceptionDetailMessage0")

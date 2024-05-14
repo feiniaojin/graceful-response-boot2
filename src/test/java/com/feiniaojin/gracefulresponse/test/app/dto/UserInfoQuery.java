@@ -1,10 +1,8 @@
 package com.feiniaojin.gracefulresponse.test.app.dto;
 
-import com.feiniaojin.gracefulresponse.api.ValidationStatusCode;
+import javax.validation.constraints.NotNull;
 import org.hibernate.validator.constraints.Length;
 import org.hibernate.validator.constraints.Range;
-
-import javax.validation.constraints.NotNull;
 
 /**
  * 请求的DTO.
@@ -18,7 +16,6 @@ public class UserInfoQuery {
 
     @NotNull(message = "userName is null !")
     @Length(min = 6, max = 12)
-    @ValidationStatusCode(code = "520")
     private String userName;
 
     @NotNull(message = "age is null !")
