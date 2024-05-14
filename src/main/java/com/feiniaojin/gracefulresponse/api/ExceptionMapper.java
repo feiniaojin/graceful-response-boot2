@@ -32,7 +32,7 @@ public @interface ExceptionMapper {
 
     /**
      * 异常信息是否支持替换
-     * 仅当msgReplaceable==ture，且异常示例的message不为空时才能替换
+     * 仅当msgReplaceable==ture，且异常实例的message不为空时才能替换
      *
      * @return
      */

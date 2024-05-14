@@ -1,11 +1,10 @@
 package com.feiniaojin.gracefulresponse.advice;
 
 import com.feiniaojin.gracefulresponse.GracefulResponseProperties;
+import javax.annotation.Resource;
 import org.springframework.http.converter.HttpMessageConverter;
 import org.springframework.http.converter.json.AbstractJackson2HttpMessageConverter;
 import org.springframework.http.converter.json.AbstractJsonHttpMessageConverter;
-
-import javax.annotation.Resource;
 
 /**
  * Advice的工具类
@@ -26,4 +25,6 @@ public class AdviceSupport {
                 || AbstractJackson2HttpMessageConverter.class.isAssignableFrom(clazz)
                 || clazz.getName().equals(properties.getJsonHttpMessageConverter());
     }
+
+
 }

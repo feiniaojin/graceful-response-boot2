@@ -4,25 +4,28 @@ import com.feiniaojin.gracefulresponse.GracefulResponseProperties;
 import com.feiniaojin.gracefulresponse.api.ExcludeFromGracefulResponse;
 import com.feiniaojin.gracefulresponse.api.ResponseFactory;
 import com.feiniaojin.gracefulresponse.data.Response;
+import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.core.MethodParameter;
 import org.springframework.core.annotation.Order;
 import org.springframework.http.MediaType;
 import org.springframework.http.converter.HttpMessageConverter;
-import org.springframework.http.converter.json.AbstractJackson2HttpMessageConverter;
-import org.springframework.http.converter.json.AbstractJsonHttpMessageConverter;
 import org.springframework.http.server.ServerHttpRequest;
 import org.springframework.http.server.ServerHttpResponse;
 import org.springframework.util.AntPathMatcher;
 import org.springframework.util.CollectionUtils;
 import org.springframework.web.bind.annotation.ControllerAdvice;
+import org.springframework.web.context.request.RequestAttributes;
+import org.springframework.web.context.request.RequestContextHolder;
+import org.springframework.web.context.request.ServletRequestAttributes;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseBodyAdvice;
 
-import javax.annotation.Resource;
 import java.lang.reflect.Method;
 import java.util.List;
 import java.util.Objects;
+import java.util.Set;
 
 /**
  * 非空返回值的处理.
@@ -33,15 +36,14 @@ import java.util.Objects;
  */
 @ControllerAdvice
 @Order(value = 1000)
-public class NotVoidResponseBodyAdvice implements ResponseBodyAdvice<Object> {
+public class GrNotVoidResponseBodyAdvice implements ResponseBodyAdvice<Object> {
 
-    private final Logger logger = LoggerFactory.getLogger(NotVoidResponseBodyAdvice.class);
+    private final Logger logger = LoggerFactory.getLogger(GrNotVoidResponseBodyAdvice.class);
 
     @Resource
     private ResponseFactory responseFactory;
     @Resource
     private GracefulResponseProperties properties;
-
     @Resource
     private AdviceSupport adviceSupport;
     /**
@@ -77,7 +79,20 @@ public class NotVoidResponseBodyAdvice implements ResponseBodyAdvice<Object> {
             }
             return false;
         }
-
+        //有ExcludeFromGracefulResponse注解修饰的类，也跳过
+        if (method.getDeclaringClass().isAnnotationPresent(ExcludeFromGracefulResponse.class)) {
+            if (logger.isDebugEnabled()) {
+                logger.debug("Graceful Response:类被@ExcludeFromGracefulResponse注解修饰，跳过:methodName={}", method.getName());
+            }
+            return false;
+        }
+        //有ExcludeFromGracefulResponse注解修饰的返回类型，也跳过
+        if ( method.getReturnType().isAnnotationPresent(ExcludeFromGracefulResponse.class)) {
+            if (logger.isDebugEnabled()) {
+                logger.debug("Graceful Response:返回类型被@ExcludeFromGracefulResponse注解修饰，跳过:methodName={}", method.getName());
+            }
+            return false;
+        }
         //配置了例外包路径，则该路径下的controller都不再处理
         List<String> excludePackages = properties.getExcludePackages();
         if (!CollectionUtils.isEmpty(excludePackages)) {
@@ -88,6 +103,29 @@ public class NotVoidResponseBodyAdvice implements ResponseBodyAdvice<Object> {
                 return false;
             }
         }
+
+        //配置了例外的返回类型，则不处理
+        Set<Class> excludeReturnTypes = properties.getExcludeReturnTypes();
+        if (!CollectionUtils.isEmpty(excludeReturnTypes)
+                && excludeReturnTypes.contains(method.getReturnType())) {
+            logger.debug("Graceful Response:匹配到excludeReturnTypes例外配置，跳过:returnType={},", method.getReturnType());
+            return false;
+        }
+
+        List<String> excludeUrls = properties.getExcludeUrls();
+        if (!CollectionUtils.isEmpty(excludeUrls)) {
+            RequestAttributes requestAttributes = RequestContextHolder.currentRequestAttributes();
+            HttpServletRequest request = ((ServletRequestAttributes) requestAttributes).getRequest();
+            String requestURI = request.getRequestURI();
+            for (String excludeUrl : excludeUrls) {
+                if (ANT_PATH_MATCHER.match(excludeUrl, requestURI)) {
+                    logger.debug("Graceful Response:匹配到excludeUrls例外配置，跳过:excludeUrl={},requestURI={}",
+                            excludeUrl, requestURI);
+                    return false;
+                }
+            }
+        }
+
         logger.debug("Graceful Response:非空返回值，需要进行封装");
         return true;
     }
@@ -112,4 +150,9 @@ public class NotVoidResponseBodyAdvice implements ResponseBodyAdvice<Object> {
         }
     }
 
+    public static void main(String[] args) {
+        AntPathMatcher matcher = new AntPathMatcher();
+        boolean match = matcher.match("/**/b/**", "/a/b/c/");
+        System.out.println(match);
+    }
 }

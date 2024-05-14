@@ -6,15 +6,17 @@ import com.feiniaojin.gracefulresponse.api.ResponseStatusFactory;
 import com.feiniaojin.gracefulresponse.api.ValidationStatusCode;
 import com.feiniaojin.gracefulresponse.data.Response;
 import com.feiniaojin.gracefulresponse.data.ResponseStatus;
+import javax.annotation.Resource;
+import javax.validation.ConstraintViolation;
+import javax.validation.ConstraintViolationException;
+import javax.validation.ValidationException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.PropertyEditorRegistry;
 import org.springframework.context.support.DefaultMessageSourceResolvable;
 import org.springframework.core.annotation.Order;
 import org.springframework.expression.Expression;
 import org.springframework.expression.ExpressionParser;
 import org.springframework.expression.spel.standard.SpelExpressionParser;
-import org.springframework.util.CollectionUtils;
 import org.springframework.util.StringUtils;
 import org.springframework.validation.BindException;
 import org.springframework.validation.BindingResult;
@@ -31,22 +33,17 @@ import org.springframework.web.method.HandlerMethod;
 import org.springframework.web.servlet.HandlerExecutionChain;
 import org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping;
 
-import javax.annotation.Resource;
-import javax.validation.ConstraintViolation;
-import javax.validation.ConstraintViolationException;
-import javax.validation.ValidationException;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.util.List;
-import java.util.Map;
 import java.util.Set;
 import java.util.stream.Collectors;
 
 @ControllerAdvice
 @Order(100)
-public class ValidationExceptionAdvice {
+public class GrValidationExceptionAdvice {
 
-    private final Logger logger = LoggerFactory.getLogger(ValidationExceptionAdvice.class);
+    private final Logger logger = LoggerFactory.getLogger(GrValidationExceptionAdvice.class);
     @Resource
     private RequestMappingHandlerMapping requestMappingHandlerMapping;
 
@@ -60,6 +57,7 @@ public class ValidationExceptionAdvice {
     private GracefulResponseProperties gracefulResponseProperties;
 
     private static ExpressionParser parser = new SpelExpressionParser();
+
 
     @ExceptionHandler(value = {BindException.class, ValidationException.class, MethodArgumentNotValidException.class})
     @ResponseBody
@@ -145,12 +143,7 @@ public class ValidationExceptionAdvice {
 
     private String fieldSimpleName(String fieldName) {
         int lastIndex = fieldName.lastIndexOf(".");
-        StringBuilder stringBuilder = new StringBuilder();
-        int length = fieldName.length();
-        for (int i = lastIndex + 1; i < length; i++) {
-            stringBuilder.append(fieldName.charAt(i));
-        }
-        return stringBuilder.toString();
+        return fieldName.substring(lastIndex + 1);
     }
 
     /**
@@ -161,12 +154,46 @@ public class ValidationExceptionAdvice {
      */
     private String fieldParentPath(String fieldName) {
         int lastIndex = fieldName.lastIndexOf(".");
+        return fieldName.substring(0, lastIndex);
+    }
+
+    private String leafPropertyFieldName(String fieldName) {
+        int lastIndexOf = fieldName.lastIndexOf('.');
+        if (lastIndexOf == -1) {
+            return fieldName;
+        }
         StringBuilder stringBuilder = new StringBuilder();
-        for (int i = 0; i < lastIndex; i++) {
+        int len = fieldName.length();
+        for (int i = lastIndexOf + 1; i < len; i++) {
             stringBuilder.append(fieldName.charAt(i));
         }
         return stringBuilder.toString();
     }
+
+    /**
+     * 适配数组属性，包括数组、集合
+     *
+     * @param fieldName
+     * @return
+     */
+    private String adapterArrayProperty(String fieldName) {
+        //最后一个字符不是]，则不是数组属性
+        if (fieldName.lastIndexOf(']') == -1) {
+            return fieldName;
+        }
+        StringBuilder stringBuilder = new StringBuilder();
+        int len = fieldName.length();
+        char c;
+        for (int i = 0; i < len; i++) {
+            c = fieldName.charAt(i);
+            if (c == '[') {
+                break;
+            }
+            stringBuilder.append(c);
+        }
+        return stringBuilder.toString();
+    }
+
     /**
      * 当前Controller方法
      *
