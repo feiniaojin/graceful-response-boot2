@@ -4,6 +4,7 @@ import com.feiniaojin.gracefulresponse.defaults.DefaultConstants;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 
 import java.util.List;
+import java.util.Set;
 
 /**
  * 核心配置类.
@@ -63,6 +64,16 @@ public class GracefulResponseProperties {
     private List<String> excludePackages;
 
     /**
+     * 例外返回类型
+     */
+    private Set<Class> excludeReturnTypes;
+
+    /**
+     * 例外返回类型
+     */
+    private List<String> excludeUrls;
+
+    /**
      * 不使用@ExceptionMapper和@ExceptionAliasFor修饰的原生异常
      * 是否使用异常信息Throwable类的detailMessage进行返回
      * originExceptionUsingDetailMessage=false，则msg=defaultErrorMsg
@@ -73,6 +84,11 @@ public class GracefulResponseProperties {
      * 自定义需要支持的JSON转换器
      */
     private String jsonHttpMessageConverter;
+
+    /**
+     * 国际化支持
+     */
+    private Boolean i18n = false;
 
     public boolean isPrintExceptionInGlobalAdvice() {
         return printExceptionInGlobalAdvice;
@@ -146,6 +162,14 @@ public class GracefulResponseProperties {
         this.excludePackages = excludePackages;
     }
 
+    public Set<Class> getExcludeReturnTypes() {
+        return excludeReturnTypes;
+    }
+
+    public void setExcludeReturnTypes(Set<Class> excludeReturnTypes) {
+        this.excludeReturnTypes = excludeReturnTypes;
+    }
+
     public Boolean getOriginExceptionUsingDetailMessage() {
         return originExceptionUsingDetailMessage;
     }
@@ -160,5 +184,21 @@ public class GracefulResponseProperties {
 
     public void setJsonHttpMessageConverter(String jsonHttpMessageConverter) {
         this.jsonHttpMessageConverter = jsonHttpMessageConverter;
+    }
+
+    public List<String> getExcludeUrls() {
+        return excludeUrls;
+    }
+
+    public void setExcludeUrls(List<String> excludeUrls) {
+        this.excludeUrls = excludeUrls;
+    }
+
+    public Boolean getI18n() {
+        return i18n;
+    }
+
+    public void setI18n(Boolean i18n) {
+        this.i18n = i18n;
     }
 }

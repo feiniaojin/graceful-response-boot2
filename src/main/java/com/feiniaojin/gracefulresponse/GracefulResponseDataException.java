@@ -22,22 +22,22 @@ public class GracefulResponseDataException extends GracefulResponseException {
         this.data = data;
     }
 
-    public GracefulResponseDataException(String msg, Object data){
+    public GracefulResponseDataException(String msg,Object data){
         super(msg);
         this.data = data;
     }
 
-    public GracefulResponseDataException(String code, String msg, Object data){
+    public GracefulResponseDataException(String code,String msg,Object data){
         super(code,msg);
         this.data = data;
     }
 
-    public GracefulResponseDataException(String msg, Throwable cause, Object data){
+    public GracefulResponseDataException(String msg,Throwable cause,Object data){
         super(msg,cause);
         this.data = data;
     }
 
-    public GracefulResponseDataException(String code, String msg, Throwable cause, Object data){
+    public GracefulResponseDataException(String code,String msg,Throwable cause,Object data){
         super(code,msg,cause);
         this.data = data;
     }
