@@ -1,4 +1,0 @@
-graceful-response:
-  response-style: 0
-  print-exception-in-global-advice: true
-  default-error-code: 1

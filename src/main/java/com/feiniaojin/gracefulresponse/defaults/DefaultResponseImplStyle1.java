@@ -6,6 +6,9 @@ import com.feiniaojin.gracefulresponse.data.ResponseStatus;
 
 import java.util.Collections;
 
+/**
+ * @author qinyujie
+ */
 public class DefaultResponseImplStyle1 implements Response {
 
     private Object data = Collections.emptyMap();
@@ -31,7 +34,7 @@ public class DefaultResponseImplStyle1 implements Response {
     @Override
     @JsonIgnore
     public Object getPayload() {
-        return null;
+        return this.data;
     }
 
     public String getCode() {

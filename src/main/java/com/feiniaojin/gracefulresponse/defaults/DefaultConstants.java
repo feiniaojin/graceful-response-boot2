@@ -2,8 +2,14 @@ package com.feiniaojin.gracefulresponse.defaults;
 
 /**
  * 默认的响应码和提示信息
+ *
+ * @author qinyujie
  */
 public class DefaultConstants {
+
+    private DefaultConstants() {
+        throw new IllegalStateException("Utility class");
+    }
 
     /**
      * 默认的成功响应码

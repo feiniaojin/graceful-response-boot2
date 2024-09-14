@@ -1,9 +1,13 @@
 package com.feiniaojin.gracefulresponse;
 
-import javax.annotation.PostConstruct;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import javax.annotation.PostConstruct;
+
+/**
+ * @author qinyujie
+ */
 public class Init {
 
     private final Logger logger = LoggerFactory.getLogger(Init.class);

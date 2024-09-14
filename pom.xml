@@ -6,7 +6,7 @@
 
     <groupId>com.feiniaojin</groupId>
     <artifactId>graceful-response</artifactId>
-    <version>4.0.1-boot2</version>
+    <version>5.0.0-boot2</version>
     <name>Graceful Response Boot2</name>
     <description>Help Spring Boot web API response gracefully!</description>
     <url>https://github.com/feiniaojin/graceful-response.git</url>

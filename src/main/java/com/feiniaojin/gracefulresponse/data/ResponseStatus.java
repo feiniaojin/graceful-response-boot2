@@ -10,11 +10,14 @@ public interface ResponseStatus {
      *
      * @param code 设置的响应码.
      */
-    void setCode(String code);
+    default void setCode(String code) {
+
+    }
 
     /**
      * 获得响应码.
      *
+     * @return 状态码
      */
     String getCode();
 
@@ -23,7 +26,9 @@ public interface ResponseStatus {
      *
      * @param msg 设置响应提示信息.
      */
-    void setMsg(String msg);
+    default void setMsg(String msg) {
+
+    }
 
     /**
      * 获得响应信息.

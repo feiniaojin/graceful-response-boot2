@@ -1,5 +1,7 @@
 package com.feiniaojin.gracefulresponse.data;
 
+import com.feiniaojin.gracefulresponse.data.ResponseStatus;
+
 /**
  * @author <a href="mailto:qinyujie@gingo.cn">Yujie</a>
  * @version 0.1
@@ -9,6 +11,7 @@ public interface Response {
     /**
      * 设置响应行
      *
+     * @param statusLine 状态行
      */
     void setStatus(ResponseStatus statusLine);
 
