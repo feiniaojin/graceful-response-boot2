@@ -14,7 +14,6 @@ import org.springframework.core.annotation.Order;
 import org.springframework.lang.Nullable;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
-import org.springframework.web.method.HandlerMethod;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
@@ -60,8 +59,8 @@ public class DataExceptionAdvice extends AbstractControllerAdvice
 
     @Override
     @ExceptionHandler(value = GracefulResponseDataException.class)
-    public Object exceptionHandler(HttpServletRequest request, HttpServletResponse response, @Nullable HandlerMethod handler, Exception exception) {
-        return super.exceptionHandler(request, response, handler, exception);
+    public Object exceptionHandler(Exception exception) {
+        return super.exceptionHandler(exception);
     }
 
     @Override

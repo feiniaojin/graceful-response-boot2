@@ -117,8 +117,8 @@ public class DefaultGlobalExceptionAdvice extends AbstractControllerAdvice imple
 
     @Override
     @ExceptionHandler(value = Throwable.class)
-    public Object exceptionHandler(HttpServletRequest request, HttpServletResponse response, @Nullable HandlerMethod handler, Exception exception) {
-        return super.exceptionHandler(request, response, handler, exception);
+    public Object exceptionHandler(Exception exception) {
+        return super.exceptionHandler(exception);
     }
 
     @Override

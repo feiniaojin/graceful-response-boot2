@@ -86,7 +86,7 @@ public class DefaultValidationExceptionAdvice extends AbstractControllerAdvice
         if (ex instanceof BindException) {
             BindException exception = (BindException) ex;
             responseStatus = this.handleBindException(exception);
-        } else if (ex instanceof ConstraintViolationException ) {
+        } else if (ex instanceof ConstraintViolationException) {
             ConstraintViolationException exception = (ConstraintViolationException) ex;
             responseStatus = this.handleConstraintViolationException(exception);
         }
@@ -103,8 +103,8 @@ public class DefaultValidationExceptionAdvice extends AbstractControllerAdvice
     @ExceptionHandler(value = {BindException.class,
             ValidationException.class,
             MethodArgumentNotValidException.class})
-    public Object exceptionHandler(HttpServletRequest request, HttpServletResponse response, @Nullable HandlerMethod handler, Exception exception) {
-        return super.exceptionHandler(request, response, handler, exception);
+    public Object exceptionHandler(Exception exception) {
+        return super.exceptionHandler(exception);
     }
 
     /**
