@@ -16,8 +16,10 @@ import org.springframework.http.server.ServerHttpResponse;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 
+import javax.annotation.PostConstruct;
 import javax.annotation.Resource;
 import java.util.Locale;
+import java.util.concurrent.CopyOnWriteArrayList;
 
 /**
  * 国际化处理
@@ -55,5 +57,13 @@ public class GrI18nResponseBodyAdvice extends AbstractResponseBodyAdvice impleme
     @Override
     public boolean shouldApplyTo(MethodParameter methodParameter, Class<? extends HttpMessageConverter<?>> clazz) {
         return properties.getI18n();
+    }
+
+    @PostConstruct
+    public void init() {
+        CopyOnWriteArrayList<ResponseBodyAdvicePredicate> copyOnWriteArrayList = new CopyOnWriteArrayList<>();
+        copyOnWriteArrayList.add(this);
+        this.setPredicates(copyOnWriteArrayList);
+        this.setResponseBodyAdviceProcessor(this);
     }
 }

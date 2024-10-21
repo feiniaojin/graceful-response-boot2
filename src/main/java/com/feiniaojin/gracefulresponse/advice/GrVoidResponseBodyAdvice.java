@@ -11,8 +11,10 @@ import org.springframework.http.server.ServerHttpRequest;
 import org.springframework.http.server.ServerHttpResponse;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 
+import javax.annotation.PostConstruct;
 import javax.annotation.Resource;
 import java.util.Objects;
+import java.util.concurrent.CopyOnWriteArrayList;
 
 /**
  * 空返回值的拦截处理.
@@ -41,5 +43,13 @@ public class GrVoidResponseBodyAdvice extends AbstractResponseBodyAdvice impleme
     @Override
     public Object process(Object body, MethodParameter returnType, MediaType selectedContentType, Class<? extends HttpMessageConverter<?>> selectedConverterType, ServerHttpRequest request, ServerHttpResponse response) {
         return responseFactory.newSuccessInstance();
+    }
+
+    @PostConstruct
+    public void init(){
+        CopyOnWriteArrayList<ResponseBodyAdvicePredicate> copyOnWriteArrayList = new CopyOnWriteArrayList<>();
+        copyOnWriteArrayList.add(this);
+        this.setPredicates(copyOnWriteArrayList);
+        this.setResponseBodyAdviceProcessor(this);
     }
 }

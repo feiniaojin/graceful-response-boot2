@@ -20,12 +20,14 @@ import org.springframework.web.context.request.RequestAttributes;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 
+import javax.annotation.PostConstruct;
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import java.lang.reflect.Method;
 import java.util.List;
 import java.util.Objects;
 import java.util.Set;
+import java.util.concurrent.CopyOnWriteArrayList;
 
 /**
  * 非空返回值的处理.
@@ -132,5 +134,13 @@ public class GrNotVoidResponseBodyAdvice extends AbstractResponseBodyAdvice impl
 
         logger.debug("Graceful Response:非空返回值，需要进行封装");
         return true;
+    }
+
+    @PostConstruct
+    public void init() {
+        CopyOnWriteArrayList<ResponseBodyAdvicePredicate> copyOnWriteArrayList = new CopyOnWriteArrayList<>();
+        copyOnWriteArrayList.add(this);
+        this.setPredicates(copyOnWriteArrayList);
+        this.setResponseBodyAdviceProcessor(this);
     }
 }
